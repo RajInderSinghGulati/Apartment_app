@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../styles/blog.css";
+
 
 function NewPostModal() {
   const [open, setOpen] = useState(false);

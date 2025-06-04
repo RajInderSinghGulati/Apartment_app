@@ -1,6 +1,5 @@
 import React from "react";
 import CommentSection from "./CommentSection";
-import "../../styles/blog.css";
 
 function PostCard({ post }) {
   return (

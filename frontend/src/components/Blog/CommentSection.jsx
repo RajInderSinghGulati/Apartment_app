@@ -1,6 +1,4 @@
 import React from "react";
-import "../../styles/blog.css";
-
 function CommentSection({ comments }) {
   return (
     <div style={{ marginTop: "0.5rem" }}>

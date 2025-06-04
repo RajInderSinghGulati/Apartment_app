@@ -3,12 +3,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--main-gradient);
+  background: var(--bg-gradient);
 }
 
 .auth-card {
-  background: var(--bg-glass);
-  border-radius: var(--border-radius);
+  background: var(--glass);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
   padding: 48px 36px 36px 36px;
   max-width: 400px;
@@ -17,6 +17,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  animation: cardFadeIn 0.5s;
+}
+@keyframes cardFadeIn {
+  from { opacity: 0; transform: translateY(24px);}
+  to { opacity: 1; transform: translateY(0);}
 }
 
 .auth-title {
@@ -24,8 +29,8 @@
   color: var(--primary);
   font-weight: 800;
   margin-bottom: 0.3em;
+  letter-spacing: 0.01em;
 }
-
 .auth-form {
   width: 100%;
   display: flex;
@@ -33,25 +38,21 @@
   gap: 1.1em;
   margin-bottom: 1.5em;
 }
-
 .auth-form button {
   margin-top: 0.5em;
   width: 100%;
 }
-
 .auth-link {
   color: var(--accent);
   font-weight: 600;
   transition: color 0.18s;
 }
-
 .auth-link:hover {
   color: var(--primary);
 }
-
 .auth-error {
   color: var(--danger);
-  background: var(--danger-light);
+  background: var(--danger-bg);
   border-radius: 6px;
   padding: 6px 10px;
   font-size: 0.98em;

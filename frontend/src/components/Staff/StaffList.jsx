@@ -1,7 +1,6 @@
 import React from "react";
 import StaffProfileCard from "./StaffProfileCard";
 import HireStaffModal from "./HireStaffModal";
-import "../../styles/staff.css";
 
 // Dummy staff data
 const staff = [

@@ -1,5 +1,4 @@
 import React from "react";
-import "../../styles/entry.css";
 
 
 function EntryCard({ entry }) {

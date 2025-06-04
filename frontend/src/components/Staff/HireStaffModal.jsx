@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../../styles/staff.css";
 
 function HireStaffModal() {
   const [open, setOpen] = useState(false);

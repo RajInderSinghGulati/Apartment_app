@@ -1,5 +1,4 @@
 import React from "react";
-import "../../styles/staff.css";
 
 function StaffProfileCard({ staff }) {
   return (

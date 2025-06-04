@@ -1,6 +1,5 @@
 import React from "react";
 import EntryCard from "./EntryCard";
-import "../../styles/entry.css";
 
 // Dummy entry data
 const entries = [
