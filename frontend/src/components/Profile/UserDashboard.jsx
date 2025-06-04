@@ -1,5 +1,5 @@
 import React from "react";
-import "./UserDashboard.css";
+import "../../styles/UserDashboard";
 
 // Example user data (replace with fetched data)
 const user = {
