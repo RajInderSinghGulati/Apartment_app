@@ -1,13 +1,13 @@
 import React from "react";
 
-function StaffProfileCard({ staff }) {
+export default function StaffProfileCard({ staff }) {
   return (
-    <div style={{ border: "1px solid #ddd", padding: "1rem", margin: "0.5rem 0", borderRadius: "6px" }}>
-      <div><b>{staff.name}</b></div>
-      <div>Role: {staff.role}</div>
-      <button>Fire</button>
+    <div className="staff-card">
+      <div className="staff-card-info">
+        <span className="staff-card-name">{staff.name}</span>
+        <span className="staff-card-role">{staff.role}</span>
+      </div>
+      <button className="staff-fire-btn">Fire</button>
     </div>
   );
 }
-
-export default StaffProfileCard;

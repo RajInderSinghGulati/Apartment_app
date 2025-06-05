@@ -1,13 +1,13 @@
 import React from "react";
 import BlogFeed from "../components/Blog/BlogFeed";
 
-function HomePage() {
+export default function HomePage() {
   return (
-    <div className="centered-container">
-      <h2>Community Blog</h2>
-      <BlogFeed />
+    <div className="udash-bg">
+      <div className="udash-container">
+        <h2 className="blog-section-title">Community Blog</h2>
+        <BlogFeed />
+      </div>
     </div>
   );
 }
-
-export default HomePage;

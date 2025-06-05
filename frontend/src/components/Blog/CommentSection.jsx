@@ -1,18 +1,14 @@
 import React from "react";
-function CommentSection({ comments }) {
+
+export default function CommentSection({ comments }) {
   return (
-    <div style={{ marginTop: "0.5rem" }}>
-      <strong>Comments:</strong>
-      <ul style={{ paddingLeft: "1rem" }}>
-        {comments.map(comment => (
-          <li key={comment.id}>
-            <b>{comment.author}:</b> {comment.text}
-          </li>
+    <div className="blog-comment-section">
+      <ul className="blog-comment-list">
+        {comments.map((c, i) => (
+          <li key={i}><b>{c.author}:</b> {c.text}</li>
         ))}
       </ul>
-      <input type="text" placeholder="Add a comment..." style={{ width: "100%", marginTop: "0.5rem" }} />
+      <input className="blog-comment-input" placeholder="Add a comment..." />
     </div>
   );
 }
-
-export default CommentSection;

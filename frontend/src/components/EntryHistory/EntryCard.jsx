@@ -1,15 +1,19 @@
 import React from "react";
 
-
-function EntryCard({ entry }) {
+export default function EntryCard({ entry }) {
   return (
-    <div style={{ border: "1px solid #ccc", borderRadius: "6px", margin: "0.5rem 0", padding: "1rem" }}>
-      <div><b>{entry.name}</b> ({entry.type})</div>
-      {entry.type === "Guest" && <div>Purpose: {entry.purpose}</div>}
-      <div>Entry: {entry.entryTime}</div>
-      <div>Exit: {entry.exitTime}</div>
+    <div className="entry-card">
+      <div className="entry-card-title">
+        {entry.name}
+        <span className="entry-card-type">({entry.type})</span>
+      </div>
+      {entry.type === "Guest" && (
+        <div className="entry-card-purpose">Purpose: {entry.purpose}</div>
+      )}
+      <div className="entry-card-time">
+        <span>Entry: {entry.entryTime}</span>
+        <span>Exit: {entry.exitTime}</span>
+      </div>
     </div>
   );
 }
-
-export default EntryCard;

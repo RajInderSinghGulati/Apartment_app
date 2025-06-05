@@ -2,39 +2,34 @@ import React from "react";
 import PostCard from "./PostCard";
 import NewPostModal from "./NewPostModal";
 
-// Dummy posts
 const posts = [
   {
     id: 1,
-    author: "John Doe",
-    apartment: "Sunshine Residency",
-    content: "Join us for a Diwali party this Saturday!",
-    likes: 4,
-    comments: [
-      { id: 1, author: "Jane", text: "Sounds fun!" }
-    ]
+    author: "Priya",
+    content: "Yoga session in the garden at 6am.",
+    likes: 2,
+    comments: [],
+    media: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80", // image url
+    mediaType: "image"
   },
   {
     id: 2,
-    author: "Priya Singh",
-    apartment: "Green Meadows",
-    content: "Yoga session in the garden at 6am.",
-    likes: 2,
-    comments: []
+    author: "John",
+    content: "Diwali party this Saturday!",
+    likes: 4,
+    comments: [{ author: "Jane", text: "Sounds fun!" }],
+    media: "https://www.w3schools.com/html/mov_bbb.mp4", // video url
+    mediaType: "video"
   }
 ];
 
-function BlogFeed() {
+export default function BlogFeed() {
   return (
     <div>
       <NewPostModal />
-      <div>
-        {posts.map(post => (
-          <PostCard key={post.id} post={post} />
-        ))}
-      </div>
+      {posts.map(post => (
+        <PostCard key={post.id} post={post} />
+      ))}
     </div>
   );
 }
-
-export default BlogFeed;

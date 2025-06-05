@@ -1,13 +1,13 @@
 import React from "react";
 import EntryHistoryList from "../components/EntryHistory/EntryHistoryList";
 
-function EntryHistoryPage() {
+export default function EntryHistoryPage() {
   return (
-    <div className="centered-container">
-      <h2>Entry History</h2>
-      <EntryHistoryList />
+    <div className="udash-bg">
+      <div className="udash-container">
+        <h2 className="udash-section-title">Entry History</h2>
+        <EntryHistoryList />
+      </div>
     </div>
   );
 }
-
-export default EntryHistoryPage;

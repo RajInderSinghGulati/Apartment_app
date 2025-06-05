@@ -1,13 +1,13 @@
 import React from "react";
 import StaffList from "../components/Staff/StaffList";
 
-function StaffPage() {
+export default function StaffPage() {
   return (
-    <div className="centered-container">
-      <h2>My Staff</h2>
-      <StaffList />
+    <div className="udash-bg">
+      <div className="udash-container">
+        <h2 className="udash-section-title">Staff Management</h2>
+        <StaffList />
+      </div>
     </div>
   );
 }
-
-export default StaffPage;
