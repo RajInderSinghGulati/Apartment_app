@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const HelperSchema = new mongoose.Schema({
+const StaffSchema = new mongoose.Schema({
     name : {type : String, required : true},
     phoneNum : {type : String, required : true, unique : true},
     role : {type : String, required : true},
@@ -8,4 +8,4 @@ const HelperSchema = new mongoose.Schema({
     avatar : String
 });
 
-module.exports = mongoose.model('Helper',HelperSchema);
+module.exports = mongoose.model('Staff',StaffSchema);

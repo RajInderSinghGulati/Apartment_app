@@ -75,7 +75,17 @@ exports.loginUser = async (req,res) => {
         if(!isUser) return res.status(401).json({error : "Invalid credentials"});
         const token = jwt.sign({userId : user._id, email : user.email,role : "User"},process.env.JWT_SECRET,{expiresIn : '1h'});
         res.status(200).json(token);
-    }catch{
+    }catch(err){
+        res.status(500).json({error : err.message});
+    }
+};
+
+exports.getUsersByHouseId = async(req,res) => {
+    try{
+        const {houseId} = req.params;
+        const members = await User.find({house : houseId});
+        res.status(200).json(members);
+    }catch(err){
         res.status(500).json({error : err.message});
     }
 };

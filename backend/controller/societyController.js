@@ -50,3 +50,14 @@ exports.deleteSociety = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+exports.searchSocietyByName = async (req,res) => {
+    try{
+        const {name} = req.query;
+        if(!name) return res.status(400).json({error : "No name entered"});
+        const society = await Society.find({name : name});
+        res.status(200).json((society) ? society : {message : "No such society exists"});
+    }catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
