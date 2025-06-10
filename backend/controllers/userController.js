@@ -1,7 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { use } = require('react');
 
 exports.createUser = async (req,res) => {
     try{
@@ -102,5 +101,30 @@ exports.addMemberToHouse = async (req,res) => {
         res.status(200).json({message : user.name + " added to house " + houseId});
     }catch(err){
         res.status(500).json({error : err.message});
+    }
+};
+
+exports.searchUser = async (req, res) => {
+    try {
+        const { name } = req.query;
+        if (!name) return res.status(400).json({ error: "No name entered" });
+        const users = await User.find({ name: { $regex: name, $options: 'i' } });
+        res.status(200).json(users);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+exports.removeMemberFromHouse = async (req,res) => {
+    try{
+        const {userId} = req.params;
+        const user = await User.findById(userId);
+        if(!user) return res.status(404).json({error : "User not found"});
+        if(!user.house) return res.status(400).json({message : "User is not in any house"});
+        user.house = null;
+        await user.save();
+        res.status(200).json({message : "User is removed from house"});
+    }catch (err) {
+        res.status(500).json({ error: err.message });
     }
 };
