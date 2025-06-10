@@ -22,6 +22,17 @@ exports.getNotificationById = async (req, res) => {
   }
 };
 
+exports.getAllNotifications = async (req, res) => {
+  try {
+    const { userId } = req.query;
+    const filter = userId ? { user: userId } : {};
+    const notifications = await Notification.find(filter).populate('user');
+    res.status(200).json(notifications);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 exports.updateNotification = async (req, res) => {
   try {
     const { notificationId } = req.params;

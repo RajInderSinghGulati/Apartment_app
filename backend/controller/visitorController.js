@@ -22,6 +22,17 @@ exports.getVisitorById = async (req, res) => {
   }
 };
 
+exports.getAllVisitors = async (req, res) => {
+  try {
+    const { houseId } = req.query;
+    const filter = houseId ? { house: houseId } : {};
+    const visitors = await Visitor.find(filter).populate('house');
+    res.status(200).json(visitors);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 exports.updateVisitor = async (req, res) => {
   try {
     const { visitorId } = req.params;
@@ -40,6 +51,28 @@ exports.deleteVisitor = async (req, res) => {
     const deleted = await Visitor.deleteOne({ _id: visitorId });
     if (deleted.deletedCount === 0) return res.status(404).json({ message: "Visitor not found" });
     res.status(200).json({ message: "Visitor deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.approveVisitor = async (req, res) => {
+  try {
+    const { visitorId } = req.params;
+    const visitor = await Visitor.findByIdAndUpdate(visitorId, { status: "Approved" }, { new: true });
+    if (!visitor) return res.status(404).json({ error: "Visitor not found" });
+    res.status(200).json(visitor);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.rejectVisitor = async (req, res) => {
+  try {
+    const { visitorId } = req.params;
+    const visitor = await Visitor.findByIdAndUpdate(visitorId, { status: "Rejected" }, { new: true });
+    if (!visitor) return res.status(404).json({ error: "Visitor not found" });
+    res.status(200).json(visitor);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
