@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.post('/', auth, adminOnly, societyController.createSociety);
 router.get('/:societyId', auth, societyController.getSocietyById);
-router.get('/', auth, societyController.getAllSocieties);
 router.put('/:societyId', auth, adminOnly, societyController.updateSociety);
 router.delete('/:societyId', auth, adminOnly, societyController.deleteSociety);
 

@@ -1,6 +1,6 @@
 const express = require('express');
 const userController = require('../controllers/userController');
-const auth = require('../middleware/auth');
+const auth = require('../middlewares/auth');
 const router = express.Router();
 
 router.post('/', userController.createUser);
@@ -11,7 +11,6 @@ router.delete('/:userId', auth, userController.deleteUser);
 router.post('/login', userController.loginUser);
 
 router.get('/house/:houseId', auth, userController.getUsersByHouseId);
-router.get('/search', auth, userController.searchUsers);
 
 router.put('/:userId/assign-house/:houseId', auth, userController.addMemberToHouse);
 router.put('/:userId/remove-house', auth, userController.removeMemberFromHouse);

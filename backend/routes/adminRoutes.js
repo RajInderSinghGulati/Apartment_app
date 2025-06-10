@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.post('/', adminOnly, adminController.createAdmin);
 router.get('/:adminId', auth, adminOnly, adminController.getAdminById);
-router.get('/', auth, adminOnly, adminController.getAllAdmins);
 router.put('/:adminId', auth, adminOnly, adminController.updateAdmin);
 router.delete('/:adminId', auth, adminOnly, adminController.deleteAdmin);
 
