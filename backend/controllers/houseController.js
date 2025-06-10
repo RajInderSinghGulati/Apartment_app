@@ -47,3 +47,30 @@ exports.deleteHouse = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getHousesBySocietyId = async (req, res) => {
+  try {
+    const { societyId } = req.params;
+    const houses = await House.find({ society: societyId })
+      .populate('members staff vehicles pets');
+    res.status(200).json(houses);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.searchHouses = async (req, res) => {
+  try {
+    const { q } = req.query;
+    if (!q) return res.status(400).json({ error: "No search query provided" });
+    const houses = await House.find({
+      $or: [
+        { block: { $regex: q, $options: 'i' } },
+        { number: { $regex: q, $options: 'i' } }
+      ]
+    }).populate('members staff vehicles pets');
+    res.status(200).json(houses);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

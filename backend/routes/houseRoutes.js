@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.post('/', auth, adminOnly, houseController.createHouse);
 router.get('/:houseId', auth, houseController.getHouseById);
-router.get('/', auth, houseController.getAllHouses);
 router.put('/:houseId', auth, adminOnly, houseController.updateHouse);
 router.delete('/:houseId', auth, adminOnly, houseController.deleteHouse);
 
