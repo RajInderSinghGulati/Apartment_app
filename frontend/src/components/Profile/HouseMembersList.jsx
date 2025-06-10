@@ -1,20 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { fetchUsers } from "../api/users"; // Adjust if you have a more specific API
 
+function HouseMembersList({ houseId }) {
+  const [members, setMembers] = useState([]);
+  const [error, setError] = useState("");
 
-const members = [
-  { id: 1, name: "John Doe", relation: "Self" },
-  { id: 2, name: "Jane Doe", relation: "Spouse" },
-  { id: 3, name: "Jimmy Doe", relation: "Child" }
-];
+  useEffect(() => {
+    // If your backend has an endpoint for house members, use it instead
+    // For example: fetchHouseMembers(houseId)
+    fetchUsers()
+      .then(res => {
+        // Filter users by houseId if needed
+        const filtered = houseId
+          ? res.data.filter(u => u.house === houseId)
+          : res.data;
+        setMembers(filtered);
+      })
+      .catch(err => setError(err.response?.data?.error || "Error loading members"));
+  }, [houseId]);
 
-function HouseMembersList() {
   return (
     <div>
       <h3>House Members</h3>
+      {error && <div style={{ color: "red" }}>{error}</div>}
       <ul>
-        {members.map(m => (
-          <li key={m.id}>{m.name} ({m.relation})</li>
-        ))}
+        {members.length === 0 && !error ? (
+          <li>No members found.</li>
+        ) : (
+          members.map(m => (
+            <li key={m._id}>{m.name} ({m.relation || "Member"})</li>
+          ))
+        )}
       </ul>
       <button>Add Member</button>
     </div>

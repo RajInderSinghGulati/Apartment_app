@@ -1,23 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BookingModal from "./BookingModal";
-
-// Dummy facilities and bookings
-const facilities = [
-  { id: 1, name: "Clubhouse" },
-  { id: 2, name: "Party Hall" },
-  { id: 3, name: "Tennis Court" },
-  { id: 4, name: "Swimming Pool" }
-];
-
-const dummySlots = [
-  { id: 1, facility: "Clubhouse", date: "2025-06-07", time: "18:00", status: "Booked" },
-  { id: 2, facility: "Tennis Court", date: "2025-06-08", time: "08:00", status: "Available" },
-  { id: 3, facility: "Party Hall", date: "2025-06-09", time: "20:00", status: "Booked" }
-];
+import { fetchFacilities } from "../api/facilities";
+import { fetchBookings } from "../api/bookings";
 
 export default function FacilityCalendar() {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
+  const [facilities, setFacilities] = useState([]);
+  const [bookings, setBookings] = useState([]);
+  const [error, setError] = useState("");
+
+  // Fetch facilities from backend
+  useEffect(() => {
+    fetchFacilities()
+      .then(res => setFacilities(res.data))
+      .catch(err => setError(err.response?.data?.error || "Error loading facilities"));
+  }, []);
+
+  // Fetch bookings from backend
+  const loadBookings = () => {
+    fetchBookings()
+      .then(res => setBookings(res.data))
+      .catch(err => setError(err.response?.data?.error || "Error loading bookings"));
+  };
+
+  useEffect(() => {
+    loadBookings();
+  }, []);
 
   const handleBook = (facility) => {
     setSelected(facility);
@@ -29,7 +38,7 @@ export default function FacilityCalendar() {
       <div style={{ display: "flex", gap: "1em", flexWrap: "wrap", marginBottom: "1.5em" }}>
         {facilities.map(fac => (
           <div
-            key={fac.id}
+            key={fac._id}
             className="udash-card"
             style={{
               minWidth: 180,
@@ -47,38 +56,50 @@ export default function FacilityCalendar() {
       <div>
         <h3 className="udash-section-title">Upcoming Bookings</h3>
         <div className="udash-grid">
-          {dummySlots.map(slot => (
-            <div
-              key={slot.id}
-              className="udash-card"
-              style={{
-                borderTop: slot.status === "Booked" ? "6px solid var(--danger)" : "6px solid var(--success)",
-                background: slot.status === "Booked"
-                  ? "linear-gradient(120deg, #ffe0ed 60%, #fff 100%)"
-                  : "linear-gradient(120deg, #dcfce7 60%, #fff 100%)"
-              }}
-            >
-              <div style={{ fontWeight: 700, color: slot.status === "Booked" ? "var(--danger)" : "var(--success)" }}>
-                {slot.facility}
+          {error && (
+            <div className="udash-empty" style={{ gridColumn: "1/3", color: "red" }}>{error}</div>
+          )}
+          {bookings.length === 0 && !error ? (
+            <div className="udash-empty" style={{ gridColumn: "1/3" }}>No bookings yet.</div>
+          ) : (
+            bookings.map(slot => (
+              <div
+                key={slot._id}
+                className="udash-card"
+                style={{
+                  borderTop: slot.status === "Booked" ? "6px solid var(--danger)" : "6px solid var(--success)",
+                  background: slot.status === "Booked"
+                    ? "linear-gradient(120deg, #ffe0ed 60%, #fff 100%)"
+                    : "linear-gradient(120deg, #dcfce7 60%, #fff 100%)"
+                }}
+              >
+                <div style={{ fontWeight: 700, color: slot.status === "Booked" ? "var(--danger)" : "var(--success)" }}>
+                  {slot.facility?.name || slot.facility}
+                </div>
+                <div style={{ color: "var(--accent-dark)", margin: "0.2em 0" }}>
+                  {slot.date} at {slot.time}
+                </div>
+                <span style={{
+                  background: slot.status === "Booked" ? "var(--danger)" : "var(--success)",
+                  color: "#fff",
+                  borderRadius: 8,
+                  padding: "3px 14px",
+                  fontWeight: 700,
+                  fontSize: "0.97em"
+                }}>
+                  {slot.status}
+                </span>
               </div>
-              <div style={{ color: "var(--accent-dark)", margin: "0.2em 0" }}>
-                {slot.date} at {slot.time}
-              </div>
-              <span style={{
-                background: slot.status === "Booked" ? "var(--danger)" : "var(--success)",
-                color: "#fff",
-                borderRadius: 8,
-                padding: "3px 14px",
-                fontWeight: 700,
-                fontSize: "0.97em"
-              }}>
-                {slot.status}
-              </span>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
-      <BookingModal open={open} setOpen={setOpen} facility={selected} />
+      <BookingModal
+        open={open}
+        setOpen={setOpen}
+        facility={selected}
+        onBookingCreated={loadBookings}
+      />
     </div>
   );
 }

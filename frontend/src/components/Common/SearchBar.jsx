@@ -1,18 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
+import SearchBar from "./SearchBar";
+import { searchUsers } from "../api/users";
 
-export default function SearchBar({ value, onChange, placeholder }) {
+export default function UserSearch() {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+
+  const handleSearch = (val) => {
+    setQuery(val);
+    if (val.trim()) {
+      searchUsers(val)
+        .then(res => setResults(res.data))
+        .catch(() => setResults([]));
+    } else {
+      setResults([]);
+    }
+  };
+
   return (
-    <input
-      className="blog-comment-input"
-      type="text"
-      value={value}
-      onChange={e => onChange(e.target.value)}
-      placeholder={placeholder || "Search..."}
-      style={{
-        maxWidth: 240,
-        border: "2px solid var(--accent-light)",
-        background: "#fff"
-      }}
-    />
+    <div>
+      <SearchBar value={query} onChange={handleSearch} placeholder="Search users..." />
+      {/* Render results */}
+    </div>
   );
 }

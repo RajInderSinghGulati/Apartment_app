@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AnnouncementList from "./AnnouncementList";
+import { fetchNotifications } from "../api/notifications"; // Import your API function
 
 export default function NotificationBell() {
   const [open, setOpen] = useState(false);
-  // Dummy unread count
-  const unread = 2;
+  const [unread, setUnread] = useState(0);
+
+  useEffect(() => {
+    // Fetch notifications and count unread ones
+    fetchNotifications()
+      .then(res => {
+        const notifications = res.data || [];
+        // Assume each notification has an `isRead` property
+        const unreadCount = notifications.filter(n => !n.isRead).length;
+        setUnread(unreadCount);
+      })
+      .catch(() => setUnread(0));
+  }, []);
 
   return (
     <div style={{ position: "relative", display: "inline-block" }}>

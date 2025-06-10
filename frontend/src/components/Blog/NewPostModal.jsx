@@ -1,16 +1,22 @@
 import React, { useState } from "react";
+import { createBlog } from "../api/blogs"; // Import your API function
 
-export default function NewPostModal() {
+export default function NewPostModal({ onPostCreated }) {
   const [open, setOpen] = useState(false);
   const [media, setMedia] = useState(null);
   const [mediaType, setMediaType] = useState(null);
+  const [mediaFile, setMediaFile] = useState(null);
   const [isPoll, setIsPoll] = useState(false);
   const [pollQ, setPollQ] = useState("");
   const [pollOptions, setPollOptions] = useState(["", ""]);
+  const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    setMediaFile(file);
     if (file.type.startsWith("image/")) {
       setMedia(URL.createObjectURL(file));
       setMediaType("image");
@@ -26,6 +32,44 @@ export default function NewPostModal() {
     setPollOptions(next);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      let formData = new FormData();
+      formData.append("content", content);
+      if (mediaFile) {
+        formData.append("media", mediaFile);
+        formData.append("mediaType", mediaType);
+      }
+      if (isPoll) {
+        formData.append("pollQ", pollQ);
+        pollOptions.forEach((opt, idx) => {
+          formData.append(`pollOptions[${idx}]`, opt);
+        });
+      }
+
+      // The backend should handle multipart/form-data for media uploads
+      const res = await createBlog(formData);
+
+      setLoading(false);
+      setOpen(false);
+      setContent("");
+      setMedia(null);
+      setMediaFile(null);
+      setMediaType(null);
+      setIsPoll(false);
+      setPollQ("");
+      setPollOptions(["", ""]);
+      if (onPostCreated) onPostCreated(res.data);
+    } catch (err) {
+      setLoading(false);
+      setError(err.response?.data?.error || "Failed to create post");
+    }
+  };
+
   return (
     <div>
       <button className="blog-newpost-btn" onClick={() => setOpen(true)}>
@@ -35,8 +79,14 @@ export default function NewPostModal() {
         <div className="modal">
           <div className="modal-content">
             <h3 className="blog-section-title">Create New Post</h3>
-            <form>
-              <textarea placeholder="What's on your mind?" rows={4} />
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
+              <textarea
+                placeholder="What's on your mind?"
+                rows={4}
+                value={content}
+                onChange={e => setContent(e.target.value)}
+                required
+              />
               <input type="file" accept="image/*,video/*" onChange={handleFileChange} />
               {media && mediaType === "image" && (
                 <img src={media} alt="Preview" className="blog-post-media" style={{ marginTop: 8 }} />
@@ -77,12 +127,13 @@ export default function NewPostModal() {
                   </button>
                 </div>
               )}
+              {error && <div style={{ color: "red" }}>{error}</div>}
               <div style={{ marginTop: "1rem", display: "flex", gap: "1em" }}>
                 <button type="button" onClick={() => setOpen(false)}>
                   Cancel
                 </button>
-                <button type="submit" style={{ background: "var(--primary)" }}>
-                  Post
+                <button type="submit" style={{ background: "var(--primary)" }} disabled={loading}>
+                  {loading ? "Posting..." : "Post"}
                 </button>
               </div>
             </form>

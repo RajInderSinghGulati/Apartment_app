@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import EntryCard from "./EntryCard";
-
-const entries = [
-  { id: 1, name: "Amit", type: "Guest", purpose: "Birthday Party", entryTime: "10:00 AM", exitTime: "1:00 PM" },
-  { id: 2, name: "Ramesh", type: "Staff", entryTime: "9:00 AM", exitTime: "5:00 PM" }
-];
+import { fetchVisitors } from "../api/visitors"; // Import your API function
 
 export default function EntryHistoryList() {
+  const [entries, setEntries] = useState([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetchVisitors()
+      .then(res => setEntries(res.data))
+      .catch(err => setError(err.response?.data?.error || "Error loading entries"));
+  }, []);
+
   return (
     <div>
-      {entries.map(entry => (
-        <EntryCard key={entry.id} entry={entry} />
-      ))}
+      {error && <div style={{ color: "red" }}>{error}</div>}
+      {entries.length === 0 && !error ? (
+        <div>No entry history available.</div>
+      ) : (
+        entries.map(entry => (
+          <EntryCard key={entry._id} entry={entry} />
+        ))
+      )}
     </div>
   );
 }
