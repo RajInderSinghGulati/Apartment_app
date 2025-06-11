@@ -14,5 +14,6 @@ router.get('/house/:houseId', auth, userController.getUsersByHouseId);
 
 router.put('/:userId/assign-house/:houseId', auth, userController.addMemberToHouse);
 router.put('/:userId/remove-house', auth, userController.removeMemberFromHouse);
+router.post('/signup', userController.signupUser);
 
 module.exports = router;

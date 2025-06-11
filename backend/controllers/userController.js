@@ -128,3 +128,54 @@ exports.removeMemberFromHouse = async (req,res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+exports.signupUser = async (req, res) => {
+    try {
+        const { name, email, phoneNum, password } = req.body;
+        
+        if (!name || !email || !phoneNum || !password) {
+            return res.status(400).json({ error: "All fields (name, email, phone, password) are required" });
+        }
+
+        const existingUser = await User.findOne({ $or: [{ email }, { phoneNum }] });
+        if (existingUser) {
+            return res.status(400).json({ error: "Email or phone number already exists" });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        
+        const newUser = new User({
+            name,
+            email,
+            phoneNum,
+            password: hashedPassword,
+            status: "Owner",
+            avatar: req.body.avatar || "" 
+        });
+
+        await newUser.save();
+        
+        const token = jwt.sign(
+            { userId: newUser._id, email: newUser.email },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
+        res.status(201).json({
+            token,
+            user: {
+                _id: newUser._id,
+                name: newUser.name,
+                email: newUser.email,
+                phoneNum: newUser.phoneNum,
+                avatar: newUser.avatar
+            }
+        });
+
+    } catch (err) {
+        if (err.name === 'ValidationError') {
+            return res.status(400).json({ error: err.message });
+        }
+        res.status(500).json({ error: "Server error during signup" });
+    }
+};
