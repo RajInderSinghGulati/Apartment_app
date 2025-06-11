@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import EntryCard from "./EntryCard";
-import { fetchVisitors } from "../api/visitors"; // Import your API function
+import { fetchVisitors } from "../../api/visitors"; // Import your API function
 
 export default function EntryHistoryList() {
   const [entries, setEntries] = useState([]);

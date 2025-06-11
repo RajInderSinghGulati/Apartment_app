@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchPets } from "../api/pets";
+import { fetchPets } from "../../api/pets";
 
 function PetsList() {
   const [pets, setPets] = useState([]);

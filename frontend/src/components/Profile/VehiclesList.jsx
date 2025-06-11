@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchVehicles } from "../api/vehicles";
+import { fetchVehicles } from "../../api/vehicles";
 
 function VehiclesList() {
   const [vehicles, setVehicles] = useState([]);

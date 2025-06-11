@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createStaff } from "../api/staff"; // Import your API function
+import { createStaff } from "../../api/staff"; // Import your API function
 
 export default function HireStaffModal({ onStaffHired }) {
   const [open, setOpen] = useState(false);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createBlog } from "../api/blogs"; // Import your API function
+import { createBlog } from "../../api/blogs"; // Import your API function
 
 export default function NewPostModal({ onPostCreated }) {
   const [open, setOpen] = useState(false);

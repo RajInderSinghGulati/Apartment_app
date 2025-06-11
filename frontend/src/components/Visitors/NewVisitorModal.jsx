@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createVisitor } from "../api/visitors"; // Import your API function
+import { createVisitor } from "../../api/visitors"; // Import your API function
 
 export default function NewVisitorModal({ open, setOpen, onVisitorCreated }) {
   const [name, setName] = useState("");

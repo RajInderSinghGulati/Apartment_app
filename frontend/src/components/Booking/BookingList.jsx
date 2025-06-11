@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchBookings } from "../api/bookings"; // Import your API function
+import { fetchBookings } from "../../api/bookings"; // Import your API function
 
 export default function BookingList() {
   const [bookings, setBookings] = useState([]);

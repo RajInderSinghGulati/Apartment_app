@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import VisitorCard from "./VisitorCard";
 import NewVisitorModal from "./NewVisitorModal";
 import SearchBar from "../Common/SearchBar";
-import { fetchVisitors } from "../api/visitors";
+import { fetchVisitors } from "../../api/visitors";
 
 export default function VisitorList() {
   const [open, setOpen] = useState(false);

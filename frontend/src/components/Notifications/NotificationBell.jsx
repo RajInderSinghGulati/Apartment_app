@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AnnouncementList from "./AnnouncementList";
-import { fetchNotifications } from "../api/notifications"; // Import your API function
+import { fetchNotifications } from "../../api/notifications"; // Import your API function
 
 export default function NotificationBell() {
   const [open, setOpen] = useState(false);

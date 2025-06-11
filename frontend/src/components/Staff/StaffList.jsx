@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import StaffProfileCard from "./StaffProfileCard";
 import HireStaffModal from "./HireStaffModal";
-import { fetchStaff } from "../api/staff";
+import { fetchStaff } from "../../api/staff";
 
 export default function StaffList() {
   const [staff, setStaff] = useState([]);

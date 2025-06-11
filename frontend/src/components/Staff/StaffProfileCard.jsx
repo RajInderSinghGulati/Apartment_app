@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { deleteStaff } from "../api/staff"; // Import your API function
+import { deleteStaff } from "../../api/staff"; // Import your API function
 
 export default function StaffProfileCard({ staff, onStaffFired }) {
   const [loading, setLoading] = useState(false);

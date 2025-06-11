@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../App.css";
-import { fetchUserById, updateUser } from "../api/users"; // Import your API utilities
+import { fetchUserById, updateUser } from "../../api/users"; // Import your API utilities
 
 export default function UserDashboard() {
   const userId = "current"; // Replace with logic to get current user ID (e.g., from JWT or context)

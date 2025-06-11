@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchNotifications } from "../api/notifications"; // Import your API function
+import { fetchNotifications } from "../../api/notifications"; // Import your API function
 
 export default function AnnouncementList() {
   const [announcements, setAnnouncements] = useState([]);

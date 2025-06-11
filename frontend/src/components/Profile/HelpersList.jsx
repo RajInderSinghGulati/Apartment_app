@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchStaff } from "../api/staff"; // Import your API function
+import { fetchStaff } from "../../api/staff"; // Import your API function
 
 function HelpersList() {
   const [helpers, setHelpers] = useState([]);

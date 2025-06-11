@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchUsers } from "../api/users"; // Adjust if you have a more specific API
+import { fetchUsers } from "../../api/users"; // Adjust if you have a more specific API
 
 function HouseMembersList({ houseId }) {
   const [members, setMembers] = useState([]);

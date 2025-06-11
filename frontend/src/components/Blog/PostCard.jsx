@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CommentSection from "./CommentSection";
-import { likeBlog, votePoll } from "../api/blogs"; // Import your API functions
+import { likeBlog, votePoll } from "../../api/blogs"; // Import your API functions
 
 export default function PostCard({ post, onPostUpdated }) {
   const [voted, setVoted] = useState(false);

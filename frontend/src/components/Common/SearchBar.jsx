@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SearchBar from "./SearchBar";
-import { searchUsers } from "../api/users";
+import { searchUsers } from "../../api/users";
 
 export default function UserSearch() {
   const [query, setQuery] = useState("");

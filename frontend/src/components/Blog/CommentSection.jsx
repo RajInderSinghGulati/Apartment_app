@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { commentOnBlogPost } from "../api/blogs"; // Import your API function
+import { commentOnBlogPost } from "../../api/blogs"; // Import your API function
 
 export default function CommentSection({ comments = [], blogPostId, onCommentAdded }) {
   const [input, setInput] = useState("");

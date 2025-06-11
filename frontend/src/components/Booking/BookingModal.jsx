@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createBooking } from "../api/bookings"; // Import your API function
+import { createBooking } from "../../api/bookings"; // Import your API function
 
 export default function BookingModal({ open, setOpen, facility, onBookingCreated }) {
   const [date, setDate] = useState("");

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PostCard from "./PostCard";
 import NewPostModal from "./NewPostModal";
-import { fetchBlogs } from "../api/blogs"; // <-- Import your API function
+import { fetchBlogs } from "../../api/blogs"; // <-- Import your API function
 
 export default function BlogFeed() {
   const [posts, setPosts] = useState([]);

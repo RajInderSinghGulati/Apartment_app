@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import MaintenanceCard from "./MaintenanceCard";
 import NewRequestModal from "./NewRequestModal";
 import SearchBar from "../Common/SearchBar";
-import { fetchMaintenances } from "../api/maintenance"; // Import your API function
+import { fetchMaintenances } from "../../api/maintenance"; // Import your API function
 
 export default function MaintenanceList() {
   const [open, setOpen] = useState(false);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import BookingModal from "./BookingModal";
-import { fetchFacilities } from "../api/facilities";
-import { fetchBookings } from "../api/bookings";
+import { fetchFacilities } from "../../api/facilities";
+import { fetchBookings } from "../../api/bookings";
 
 export default function FacilityCalendar() {
   const [open, setOpen] = useState(false);

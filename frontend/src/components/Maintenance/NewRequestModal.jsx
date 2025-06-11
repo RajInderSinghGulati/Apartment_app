@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createMaintenance } from "../api/maintenance"; // Import your API function
+import { createMaintenance } from "../../api/maintenance"; // Import your API function
 
 export default function NewRequestModal({ open, setOpen, onRequestCreated }) {
   const [title, setTitle] = useState("");
