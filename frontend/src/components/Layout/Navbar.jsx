@@ -15,6 +15,7 @@ export default function Navbar() {
         <Link to="/maintenance">Maintenance</Link>
         <Link to="/booking">Facilities</Link>
         <Link to="/login">Login</Link>
+        <Link to="/admin/login">Admin</Link>
         <NotificationBell /> {/* The notification bell with dropdown */}
       </div>
     </nav>
