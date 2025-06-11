@@ -62,7 +62,6 @@ exports.deleteVehicle = async (req, res) => {
   }
 };
 
-// Search vehicles by model or plate number
 exports.searchVehicles = async (req, res) => {
   try {
     const { q } = req.query;
