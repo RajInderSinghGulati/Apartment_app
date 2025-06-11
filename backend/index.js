@@ -10,8 +10,12 @@ const path = require('path');
 // Load environment variables
 dotenv.config();
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 const MONGO_URI = process.env.MONGO_URI;
+if (!process.env.MONGO_URI || !process.env.JWT_SECRET) {
+  console.error('Missing required environment variables');
+  process.exit(1);
+}
 
 // Import routers
 const userRoutes = require('./routes/userRoutes');
@@ -32,7 +36,11 @@ const authRoutes = require('./routes/authRoutes'); // If using
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // Your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 app.use(helmet());
 app.use(morgan('dev'));
@@ -66,13 +74,12 @@ app.use((err, req, res, next) => {
 });
 
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('MongoDB connected');
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  })
-  .catch(err => {
-    console.error('MongoDB connection error:', err);
-    process.exit(1); // Exit if DB connection fails
-  });
+.then(() => console.log('MongoDB connected'))
+.catch(err => {
+  console.error('MongoDB connection error:', err);
+  process.exit(1);
+});
+
+mongoose.connection.on('error', err => {
+  console.error('MongoDB connection lost:', err);
+});

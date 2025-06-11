@@ -33,6 +33,26 @@ exports.getAllBlogPosts = async (req, res) => {
   }
 };
 
+exports.votePoll = async (req, res) => {
+  try {
+    const { pollId } = req.params;
+    const { userId, option } = req.body;
+
+    // Find the poll and ensure the user has not already voted
+    const poll = await Poll.findOne({ _id: pollId, "votes.user": { $ne: userId } });
+    if (!poll) return res.status(400).json({ error: "Already voted or poll not found" });
+
+    // Add the user's vote
+    poll.votes.push({ user: userId, option });
+    await poll.save();
+
+    res.status(200).json(poll);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
 exports.updateBlogPost = async (req, res) => {
   try {
     const { blogPostId } = req.params;
