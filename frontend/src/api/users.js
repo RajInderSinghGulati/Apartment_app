@@ -8,3 +8,5 @@ export const deleteUser = (userId) => API.delete(`/users/${userId}`);
 export const searchUsers = (name) => API.get(`/users/search?name=${name}`);
 export const assignUserToHouse = (userId, houseId) => API.put(`/users/${userId}/assign-house/${houseId}`);
 export const removeUserFromHouse = (userId) => API.put(`/users/${userId}/remove-house`);
+export const signupUser = (data) => API.post('/users/signup', data);
+export const login = (data) => API.post('/users/login', data);

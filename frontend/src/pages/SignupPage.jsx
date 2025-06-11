@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { signupUser } from "../api/users"; // Plural path
 
 export default function SignupPage() {
   const [form, setForm] = useState({
@@ -21,33 +22,19 @@ export default function SignupPage() {
     e.preventDefault();
     setLoading(true);
     setMessage("");
-
-    // Prepare payload for your API (adjust keys as needed by your backend)
     const payload = {
-      name: form.apartmentName, // or use a separate 'name' field if needed
-      houseNumber: "684864962c7f80709b2c2e28",
+      name: form.apartmentName,
+      houseNumber: form.houseNumber, // Use the value from the input
       email: form.email,
       phoneNum: form.phone,
       password: form.password,
     };
-
     try {
-      const response = await fetch("/user/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await response.json();
-
-      if (response.ok) {
-
-        setMessage("Signup successful! Redirecting to login...");
-        setTimeout(() => navigate("/login"), 1500);
-      } else {
-        setMessage(data.error || "Signup failed");
-      }
+      await signupUser(payload);
+      setMessage("Signup successful! Redirecting to login...");
+      setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
-      setMessage("Network error. Please try again.");
+      setMessage(err.response?.data?.error || "Signup failed");
     }
     setLoading(false);
   };

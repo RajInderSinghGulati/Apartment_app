@@ -11,6 +11,8 @@ import MaintenancePage from "./pages/MaintenancePage";
 import FacilityBookingPage from "./pages/FacilityBookingPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import AdminLogin from "./admin/AdminLogin";
+import AdminDashboard from "./admin/AdminDashboard";
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
           <Route path="/visitors" element={<VisitorsPage />} />
           <Route path="/maintenance" element={<MaintenancePage />} />
           <Route path="/booking" element={<FacilityBookingPage />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
         </Routes>

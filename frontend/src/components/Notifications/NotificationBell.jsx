@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from "react";
 import AnnouncementList from "./AnnouncementList";
-import { fetchNotifications } from "../../api/notifications"; // Import your API function
+import { fetchNotifications } from "../../api/notifications";
 
 export default function NotificationBell() {
   const [open, setOpen] = useState(false);
+  const [announcements, setAnnouncements] = useState([]);
   const [unread, setUnread] = useState(0);
 
   useEffect(() => {
-    // Fetch notifications and count unread ones
     fetchNotifications()
       .then(res => {
         const notifications = res.data || [];
-        // Assume each notification has an `isRead` property
+        setAnnouncements(notifications);
         const unreadCount = notifications.filter(n => !n.isRead).length;
         setUnread(unreadCount);
       })
-      .catch(() => setUnread(0));
+      .catch(() => {
+        setAnnouncements([]);
+        setUnread(0);
+      });
   }, []);
 
   return (
@@ -51,7 +54,7 @@ export default function NotificationBell() {
           minWidth: 320, background: "var(--glass)", borderRadius: 16,
           boxShadow: "0 4px 24px rgba(17,138,178,0.13)", padding: 8
         }}>
-          <AnnouncementList />
+          <AnnouncementList announcements={announcements} />
         </div>
       )}
     </div>

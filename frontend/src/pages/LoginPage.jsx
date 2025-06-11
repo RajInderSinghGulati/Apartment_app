@@ -1,16 +1,24 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { login } from "../api/users";
+
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // For demo, always succeed
-    localStorage.setItem("token", "dummy-token");
-    navigate("/home");
+    setError("");
+    try {
+      const res = await login({ email, password });
+      localStorage.setItem("token", res.data.token);
+      navigate("/home");
+    } catch (err) {
+      setError(err.response?.data?.error || "Login failed");
+    }
   };
 
   return (
@@ -34,6 +42,7 @@ export default function LoginPage() {
           />
           <button type="submit">Login</button>
         </form>
+        {error && <div style={{ color: "red", marginTop: 10 }}>{error}</div>}
         <p>
           Don't have an account?{" "}
           <Link className="auth-link" to="/signup">

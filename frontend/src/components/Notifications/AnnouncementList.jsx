@@ -1,20 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { fetchNotifications } from "../../api/notifications"; // Import your API function
+import React from "react";
 
-export default function AnnouncementList() {
-  const [announcements, setAnnouncements] = useState([]);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    fetchNotifications()
-      .then(res => setAnnouncements(res.data))
-      .catch(err => setError(err.response?.data?.error || "Error loading announcements"));
-  }, []);
-
+export default function AnnouncementList({ announcements = [] }) {
   return (
     <div>
-      {error && <div style={{ color: "red" }}>{error}</div>}
-      {announcements.length === 0 && !error ? (
+      {announcements.length === 0 ? (
         <div>No announcements at this time.</div>
       ) : (
         announcements.map(a => (
