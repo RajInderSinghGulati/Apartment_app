@@ -9,16 +9,47 @@ export default function SignupPage() {
     phone: "",
     password: "",
   });
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    localStorage.setItem("token", "dummy-token");
-    navigate("/home");
+    setLoading(true);
+    setMessage("");
+
+    // Prepare payload for your API (adjust keys as needed by your backend)
+    const payload = {
+      name: form.apartmentName, // or use a separate 'name' field if needed
+      houseNumber: "684864962c7f80709b2c2e28",
+      email: form.email,
+      phoneNum: form.phone,
+      password: form.password,
+    };
+
+    try {
+      const response = await fetch("/user/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+
+        setMessage("Signup successful! Redirecting to login...");
+        setTimeout(() => navigate("/login"), 1500);
+      } else {
+        setMessage(data.error || "Signup failed");
+      }
+    } catch (err) {
+      setMessage("Network error. Please try again.");
+    }
+    setLoading(false);
   };
 
   return (
@@ -66,8 +97,11 @@ export default function SignupPage() {
             onChange={handleChange}
             required
           />
-          <button type="submit">Sign Up</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "Signing up..." : "Sign Up"}
+          </button>
         </form>
+        {message && <div style={{ marginTop: 10, color: message.includes("successful") ? "green" : "red" }}>{message}</div>}
         <p>
           Already have an account?{" "}
           <Link className="auth-link" to="/login">
