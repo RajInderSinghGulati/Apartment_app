@@ -4,12 +4,16 @@ const auth = require('../middlewares/auth');
 const adminOnly = require('../middlewares/adminOnly');
 const router = express.Router();
 
-router.post('/', auth, adminOnly, facilityController.createFacility);
+// Static/specific routes FIRST
+router.get('/search', auth, facilityController.searchFacilities);
+
+// Parameterized routes AFTER
 router.get('/:facilityId', auth, facilityController.getFacilityById);
-router.get('/', auth, facilityController.getAllFacilities);
 router.put('/:facilityId', auth, adminOnly, facilityController.updateFacility);
 router.delete('/:facilityId', auth, adminOnly, facilityController.deleteFacility);
 
-router.get('/search', auth, facilityController.searchFacilities);
+// General routes LAST
+router.get('/', auth, facilityController.getAllFacilities);
+router.post('/', auth, adminOnly, facilityController.createFacility);
 
 module.exports = router;

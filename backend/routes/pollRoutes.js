@@ -3,14 +3,18 @@ const pollController = require('../controllers/pollController');
 const auth = require('../middlewares/auth');
 const router = express.Router();
 
-router.post('/', auth, pollController.createPoll);
+// Static/specific routes FIRST
+router.get('/blog/:blogPostId', auth, pollController.getPollsByBlogPostId);
+router.post('/:pollId/vote', auth, pollController.votePoll);
+router.get('/:pollId/results', auth, pollController.getResultsByPollId);
+
+// Parameterized routes AFTER
 router.get('/:pollId', auth, pollController.getPollById);
-router.get('/', auth, pollController.getAllPolls);
 router.put('/:pollId', auth, pollController.updatePoll);
 router.delete('/:pollId', auth, pollController.deletePoll);
 
-router.post('/:pollId/vote', auth, pollController.votePoll);
-router.get('/blog/:blogPostId', auth, pollController.getPollsByBlogPostId);
-router.get('/:pollId/results', auth, pollController.getResultsByPollId);
+// General routes LAST
+router.get('/', auth, pollController.getAllPolls);
+router.post('/', auth, pollController.createPoll);
 
 module.exports = router;

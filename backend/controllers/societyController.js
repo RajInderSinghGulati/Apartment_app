@@ -61,3 +61,12 @@ exports.searchSocietyByName = async (req,res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+exports.getAllSocieties = async (req, res) => {
+  try {
+    const societies = await Society.find();
+    res.status(200).json(societies);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

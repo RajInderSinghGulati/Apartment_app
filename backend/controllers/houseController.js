@@ -74,3 +74,12 @@ exports.searchHouses = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getAllHouses = async (req, res) => {
+  try {
+    const houses = await House.find().populate('society'); // assuming 'House' model
+    res.status(200).json(houses);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
