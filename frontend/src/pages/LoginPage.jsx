@@ -14,7 +14,7 @@ export default function LoginPage() {
     setError("");
     try {
       const res = await login({ email, password });
-      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("token", res.token);
       navigate("/home");
     } catch (err) {
       setError(err.response?.data?.error || "Login failed");
