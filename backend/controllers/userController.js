@@ -66,18 +66,43 @@ exports.updateUser = async (req,res) => {
     }
 };
 
-exports.loginUser = async (req,res) => {
-    try{
-        const {email,password} = req.body;
-        const user = await User.findOne({email:email});
-        if(!user) return res.status(404).json({error : "User not found"});
-        const isUser = await bcrypt.compare(password,user.password);
-        if(!isUser) return res.status(401).json({error : "Invalid credentials"});
-        const token = jwt.sign({userId : user._id, email : user.email,role : "User"},process.env.JWT_SECRET,{expiresIn : '1h'});
-        res.status(200).json(token);
-    }catch(err){
-        res.status(500).json({error : err.message});
+// controllers/userController.js
+exports.loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    console.log("Login attempt for email:", email);
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      console.log("User not found for email:", email);
+      return res.status(404).json({ error: "User not found" });
     }
+
+    // Log the hashed password for debugging
+    console.log("User found. Hashed password in DB:", user.password);
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    console.log("Password valid?", isPasswordValid);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    // Log JWT secret for debugging (remove in production)
+    console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
+    const token = jwt.sign(
+      { userId: user._id, email: user.email, role: "User" },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+    console.log("Generated token:", token);
+
+    res.status(200).json({ token });
+  } catch (err) {
+    console.error("Login error:", err);
+    res.status(500).json({ error: err.message });
+  }
 };
 
 exports.getUsersByHouseId = async(req,res) => {
@@ -178,4 +203,20 @@ exports.signupUser = async (req, res) => {
         }
         res.status(500).json({ error: "Server error during signup" });
     }
+};
+
+exports.getCurrentUser = async (req, res) => {
+  try {
+    // Get first user for testing (not recommended for production)
+    const user = await User.findOne().select('-password');
+    
+    if (!user) {
+      return res.status(404).json({ error: "No users found" });
+    }
+    
+    res.status(200).json(user);
+  } catch (err) {
+    console.error('getCurrentUser error:', err);
+    res.status(500).json({ error: err.message });
+  }
 };
