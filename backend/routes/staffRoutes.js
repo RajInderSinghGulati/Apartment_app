@@ -10,6 +10,7 @@ router.get('/search', auth, staffController.searchStaff);
 // Parameterized routes AFTER
 router.get('/:staffId', auth, staffController.getStaffById);
 router.put('/:staffId', auth, adminOnly, staffController.updateStaff);
+router.put('/:staffId/:houseId',auth,staffController.fireStaff);
 router.delete('/:staffId', auth, adminOnly, staffController.deleteStaff);
 
 // General routes LAST

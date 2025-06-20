@@ -62,6 +62,31 @@ exports.deleteStaff = async (req, res) => {
   }
 };
 
+exports.fireStaff = async (req, res) => {
+  try {
+    const { staffId, houseId } = req.params;
+    const staff = await Staff.findById(staffId);
+    if (!staff) return res.status(404).json({ error: "No Staff found" });
+    if (!staff.houseContracted || staff.houseContracted.length === 0) {
+      return res.status(400).json({ error: "Staff is not contracted to any house" });
+    }
+
+    const houseIndex = staff.houseContracted.findIndex(
+      (id) => id.toString() === houseId
+    );
+    if (houseIndex === -1) {
+      return res.status(404).json({ error: "Staff was not part of this house" });
+    }
+    staff.houseContracted.splice(houseIndex, 1);
+    await staff.save();
+
+    res.status(200).json({ message: "Staff fired" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
 // Search staff by name or phone number
 exports.searchStaff = async (req, res) => {
   try {
